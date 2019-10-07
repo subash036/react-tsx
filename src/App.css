@@ -1,90 +1,45 @@
-body {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  font-weight: 300;
-  font-size: 14px;
+.form-wrapper {
+  width: 500px;
+  margin: 0 auto;
 }
-
-.ReactTable .rt-thead {
-  overflow-y: scroll;
+.App {
+  text-align: center;
+  margin-top: 30px;
 }
-.ReactTable{
-  height: 79vh !important;
+nav {
+  width: 300px;
+  margin: 0 auto;
+  background: #282c34;
+  height: 70px;
+  line-height: 70px;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+nav ul li {
+  display: inline;
+  list-style-type: none;
+  text-align: center;
+  padding: 30px;
 }
-
-
-.fab {
-  width: 35px;
-  height: 35px;
-  background-color: #FF6A00;
-  border-radius: 50%;
-  box-shadow: 0 3px 5px 0 #666;
-  
-  font-size: 35px;
-  line-height: 25px;
+nav ul li a {
+  margin: 50px 0;
+  font-weight: bold;
   color: white;
-  text-align: center;
-  
-  position: absolute;
-  right: 5px;
-  top: 40px;
-  
- transition: all 0.1s ease-in-out;
+  text-decoration: none;
 }
-
-.fab:hover {
-  box-shadow: 0 6px 14px 0 #666;
-  transform: scale(1.05);
-  cursor: pointer;
+nav ul li a:hover {
+  color: white;
+  text-decoration: none;
 }
-.ReactTable .-pagination .-btn{
-  background: #FF6A00 !important;
-  color:#fff !important;
+table {
+  margin-top: 50px;
 }
-.ReactTable .rt-thead .rt-resizable-header-content{
-  color:#000 !important;
-  font-weight: bold !important;
-  text-transform: uppercase;
+.App-link {
+  color: #61dafb;
 }
-table td .form-control{
-  font-size: 14px;
-}
-h4{
-  color: #FF6A00 !important;
-  font-weight: 600;
-}
-
-.rt-td:hover{
-  overflow: visible!important;
-  white-space: normal!important;
-}
-.rt-tr-group:hover{
-  /* background: #ffb480; */
-  box-shadow: 3px 0px 8px 2px #949190;
-}
-
-.loading-outer{
-  display: table;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top:0;
-  bottom:0;
-  background:rgba(0, 0, 0, 0.13);
-}
-.loading-inner{
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
-  width: 100%;
-  height: 100%;
-}
-.spinner-grow{
-  background: #FF6A00 !important;
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
