@@ -1,1 +1,1 @@
-export const baseApi="http://127.0.0.1:8080/"
+export const baseApi="https://hcmclouduat.excelityglobal.com/WSEDM/"

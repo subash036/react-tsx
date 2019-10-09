@@ -29,7 +29,7 @@ class App extends Component<any, any> {
         this.setState({ fetchLoader: true });
         if(!this.state.createData["key"] || '' || !this.state.createData["en"]||''){
             this.setState({ fetchLoader: false });
-            return toast.error("Default Key and En Feilds are rquired", {
+            return toast.error("Key and En values are rquired", {
                 position: toast.POSITION.TOP_RIGHT
             });
         };
