@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import axios from 'axios';
-
+import request from '../mw/reqClient';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { baseApi } from "../common/urls"
 import '../App.css';
 
 export default class Home extends React.Component<any, any> {
@@ -32,53 +29,61 @@ export default class Home extends React.Component<any, any> {
     this.setState({ fetchLoader: true });
     if (!this.state.createData["key"] || '' || !this.state.createData["en"] || '') {
       this.setState({ fetchLoader: false });
-      return toast.error("Default Key and En Feilds are rquired", {
+      return toast.error("Key and En values rquired", {
         position: toast.POSITION.TOP_RIGHT
       });
     };
-    fetch(baseApi + 'createRecord', {
+    request({
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state.createData)
-    }).then(res => res.json()).then(
-      (result) => {
-        if (result.errmsg) {
+      url: 'createRecord', 
+      data: JSON.stringify(this.state.createData)
+    })
+    // .then(res => res.json())
+    .then(
+      (resp) => {
+        let response = resp.data;
+        if(response.errmsg){
           this.setState({ fetchLoader: false });
-          return toast.error(result.errmsg, {
+          return toast.error(response.errmsg, {
             position: toast.POSITION.TOP_RIGHT
           });
-        };
+        }
         toast.success("New Language Code Created", {
           position: toast.POSITION.TOP_CENTER
         });
-
         Object.keys(this.state.createData).forEach(key => {
           this.obj[key] = '';
         })
-        this.setState({ items: result, createData: this.obj, fetchLoader: false });
+        this.setState({ items: response, createData: this.obj, fetchLoader: false });
+      }).catch( (error)=> {
+          return toast.error(error, {
+            position: toast.POSITION.TOP_RIGHT
+          });
       });
     event.preventDefault();
   }
 
   componentDidMount() {
-    fetch(baseApi + "masterList")
-      .then(res => res.json())
+    request({
+      method: 'get',
+      url: "masterList",
+      responseType: 'json'
+    })
+      // .then(res => res.json())
       .then(
-        (result) => {
+        (resp) => {
+        let response = resp.data;
           this.setState({
             isLoaded: true,
-            items: result,
-            columns: result.reduce((keys: string[], obj: any) => keys.concat(Object.keys(obj).filter((key: string) => keys.indexOf(key) === -1)), []).map((data: any) => {
+            items: response,
+            columns: response.reduce((keys: string[], obj: any) => keys.concat(Object.keys(obj).filter((key: string) => keys.indexOf(key) === -1)), []).map((data: any) => {
               return {
                 name: data,
                 selector: data,
                 sortable: true,
               }
             }),
-            columnsnew: result.reduce((keys: string[], obj: any) => keys.concat(Object.keys(obj).filter((key: string) => keys.indexOf(key) === -1)), []).map((data: any) => {
+            columnsnew: response.reduce((keys: string[], obj: any) => keys.concat(Object.keys(obj).filter((key: string) => keys.indexOf(key) === -1)), []).map((data: any) => {
               return {
                 columns: [
                   {
@@ -89,19 +94,15 @@ export default class Home extends React.Component<any, any> {
                 ]
               }
             })
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          console.log("SHIVA: componentDidMount -> error", error)
-          this.setState({
-            isLoaded: true,
-            error
-          });
+          })
         }
-      )
+      ).catch( (error)=> {
+        console.log("SHIVA: componentDidMount -> error", error)
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      });
   }
 
   render() {
@@ -155,7 +156,8 @@ export default class Home extends React.Component<any, any> {
         }}>
           <table className="table" style={{
             "textAlign": "center",
-            "marginBottom": "0"
+            "marginBottom": "0",
+            "marginTop": "0"
           }}>
             <tbody>
               <tr>

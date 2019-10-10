@@ -10,6 +10,7 @@
 
 # production
 /build
+/language
 
 # misc
 .DS_Store

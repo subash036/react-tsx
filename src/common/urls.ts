@@ -1,1 +1,1 @@
-export const baseApi="http://127.0.0.1/WSEDM/"
+export const baseApi="https://hcmcloud.excelityglobal.com/WSEDM/"
