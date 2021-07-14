@@ -3,9 +3,23 @@ body {
   font-weight: 300;
   font-size: 14px;
 }
-
+.navigation .nav-item .nav-link{
+  color: #FF6A00;
+}
+.navigation .nav-item .nav-link.active{
+  color: #FF6A00;
+  opacity: 0.5;
+}
+.red{
+  color: red;
+  font-size: 14px;
+  margin-bottom: -5px;
+}
 .ReactTable .rt-thead {
   overflow-y: scroll;
+}
+.client-list .ReactTable{
+  height: 90vh !important;
 }
 .ReactTable{
   height: 79vh !important;

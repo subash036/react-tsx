@@ -3,10 +3,9 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { baseApi } from "./common/urls"
-import './App.css';
-
-class App extends Component<any, any> {
+import { baseApi } from "../common/urls"
+import '../App.css';
+class MultiLang extends Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -181,4 +180,4 @@ class App extends Component<any, any> {
 
     };
 }
-export default App;
+export default MultiLang;
