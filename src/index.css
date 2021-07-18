@@ -53,9 +53,19 @@ code {
 table td .form-control{
   font-size: 14px;
 }
-h4{
+h4,h4 select{
   color: #FF6A00 !important;
   font-weight: 600;
+}
+.css-1uccc91-singleValue{
+  color: #FF6A00 !important;
+  font-weight: bold;
+}
+h4 .select-box{
+  display: inline-block;
+  color: #FF6A00 !important;
+  padding: 10px;
+  width: 120px;
 }
 
 .rt-td:hover{

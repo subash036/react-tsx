@@ -3,11 +3,16 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { baseApi } from "../common/urls"
+import { baseApi, PROD, UAT, QA } from "../common/urls"
 import '../App.css';
-
 import axios from 'axios';
-import { resolve } from 'url';
+import Select from 'react-select';
+const options = [
+  { value: 'PROD', label: 'Live' },
+  { value: 'UAT', label: 'UAT' },
+  { value: 'QA', label: 'QA' },
+];
+
 class ClientList extends Component<any, any> {
     constructor(props: any) {
         super(props);
@@ -16,7 +21,10 @@ class ClientList extends Component<any, any> {
             isLoaded: false,
             fetchLoader: false,
             items: [],
-            createData: {}
+            createData: {
+            },
+            ENV:{ value: 'PROD', label: 'Live' },
+            url:PROD
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,8 +38,14 @@ class ClientList extends Component<any, any> {
     obj: any = {};
     handleChange(event: any) {
         let getState = this.state.createData;
-        getState[event.target.getAttribute('name')] = event.target.value;
-        this.setState({ createData: getState });
+        if(event['label']){
+            this.state["ENV"] = event;
+            this.componentDidMount();
+        }else{
+            getState[event.target.getAttribute('name')] = event.target.value;
+        };
+        this.setState({ createData: getState});
+        
     }
     handleSubmit(event: any) {
         this.setState({ fetchLoader: true });
@@ -42,7 +56,7 @@ class ClientList extends Component<any, any> {
             });
         };
         this.onFileUpload().then((resp) => {
-            fetch(baseApi + 'intiateProcess', {
+            fetch((this.state.ENV.value === "PROD"? PROD: this.state.ENV.value === "UAT"? UAT:this.state.ENV.value === "QA"? QA:baseApi) + 'intiateProcess', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -71,7 +85,7 @@ class ClientList extends Component<any, any> {
     }
 
     componentDidMount() {
-        fetch(baseApi + "getclient")
+        fetch((this.state.ENV.value === "PROD"? PROD: this.state.ENV.value === "UAT"? UAT:this.state.ENV.value === "QA"? QA:baseApi)+ "getclient")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -172,13 +186,12 @@ class ClientList extends Component<any, any> {
             );
         }
     };
-    filterMethod = (filter: any, row: any, column: any) => {
+    filterMethod = (filter: any, row: any) => {
         const id = filter.pivotId || filter.id
         return row[id] !== undefined ? String(!isNaN(row[id]) ? row[id] : row[id].toLowerCase()).includes(!isNaN(filter.value) ? filter.value : filter.value.toLowerCase()) : true
     }
     render() {
-        const { error, fetchLoader, isLoaded, items, columns, columnsnew } = this.state;
-        ;
+        const { error, fetchLoader, isLoaded, items, columnsnew } = this.state;
         if (error) {
             return <div className="loading-outer">
                 <div className="loading-inner">
@@ -207,7 +220,11 @@ class ClientList extends Component<any, any> {
                         </div>
                     </div>
                 </div>)}
-                <h4 className="text-center">HCM Clients/Schema</h4>
+                <h4 className="text-center">HCM <Select className="select-box"
+                                onChange={this.handleChange} 
+                                value={this.state['ENV']} name="ENV"
+                                options={options}
+                            /> Clients/Schema</h4>
                 <ReactTable
                     defaultFilterMethod={this.filterMethod}
                     data={items}
